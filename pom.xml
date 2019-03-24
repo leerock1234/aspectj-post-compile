@@ -4,10 +4,10 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>li.barlog.asjex</groupId>
-	<artifactId>aspectj-maven-example</artifactId>
-	<name>AspeсtJ Maven Example</name>
-	<version>0.1-SNAPSHOT</version>
+	<groupId>npack</groupId>
+	<artifactId>npack</artifactId>
+	<name>AspectJ Maven Example</name>
+	<version>1.0-aspectj</version>
 
 	<properties>
 		<java.version>1.8</java.version>
@@ -16,6 +16,8 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<aspectj.version>1.8.5</aspectj.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
 	</properties>
 
 	<dependencies>
@@ -23,6 +25,14 @@
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
 			<version>${aspectj.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>hpack</groupId>
+			<artifactId>hpack</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<!--<systemPath>C:/Users/q1062/code/dpack/target/dpack-1.0.jar</systemPath>-->
+			<systemPath>C:/Users/q1062/code/hpack/target/hpack-1.0-jar-with-dependencies.jar</systemPath>
 		</dependency>
 	</dependencies>
 
@@ -37,6 +47,12 @@
 					<source>${maven.compiler.source}</source>
 					<target>${maven.compiler.target}</target>
 					<showWeaveInfo>true</showWeaveInfo>
+					<weaveDependencies>
+						<weaveDependency>
+							<groupId>hpack</groupId>
+							<artifactId>hpack</artifactId>
+						</weaveDependency>
+					</weaveDependencies>
 				</configuration>
 				<executions>
 					<execution>
@@ -69,17 +85,21 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.5.3</version>
+				<version>3.1.1</version>
 				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>li.barlog.asjex.App</mainClass>
-						</manifest>
-					</archive>
 					<descriptorRefs>
 						<descriptorRef>jar-with-dependencies</descriptorRef>
 					</descriptorRefs>
 				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id> <!-- this is used for inheritance merges -->
+						<phase>package</phase> <!-- bind to the packaging phase -->
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 
 			<plugin>
